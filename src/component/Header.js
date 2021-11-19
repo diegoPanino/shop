@@ -7,13 +7,13 @@ import logo from '../img/logo.png'
 export default function Header(){
 	return(
 		<Container fluid>
-		<Row className='bg-secondary justify-content-sm-center mb-3'>
-        	<Col sm={3} >
-				<header>
-	            	<Image fluid src = {logo} alt ='Emporium Logo' />
-	         	</header>
-	        </Col>
-	   	</Row>
+			<Row className='bg-secondary justify-content-sm-center mb-3'>
+        		<Col sm={3} >
+					<header>
+	            		<Image fluid src = {logo} alt ='Emporium Logo' />
+	         		</header>
+	        	</Col>
+	   		</Row>
 	   	</Container>
 		)
 }
