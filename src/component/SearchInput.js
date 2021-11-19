@@ -28,7 +28,7 @@ export default function SearchInput(props){
       			placeholder="What do you desire?"
 			    aria-label="Products Search"
     		/>
-    		<Button as = 'button' onClick = {onClickHandler} size='sm'>
+    		<Button as = 'button' onClick = {onClickHandler} size='sm' >
     			<BsSearch color = '#19647e' size = '2em'/>
     		</Button>
 		</InputGroup>	
