@@ -10,6 +10,7 @@ $theme-colors:(
 	warning:      	#F6AB65,
 	danger:       	#D63230,        
 	surface:		#4b3f72,
+	body:			#200212,
 );
 
 $body-bg:			#200212;	//dark violet
@@ -31,7 +32,60 @@ button:hover{
 	transform: scale(1.1)
 }
 
-.fscaling{
+.myLink{
+	color: #ffd685;
+	border-width: 0;
+}
+.myLink:hover{
+	color: #ffd685;
+	transform: scale(1.2)	
+}
+
+input:focus{
+	border-width: 1px!important;
+	border-color: #19647e!important;
+	box-shadow: none!important;
+}
+.myPswInput{
+	border-right-width: 0;
+}
+.myPswInput:focus{
+	border-right-width: 0!important;
+}
+input.myPswInput.form-control:focus + .myHSPswBtn{
+	border-width: 1px!important;
+	border-color: #19647e!important;
+	border-left-width: 0!important;
+}
+.myHSPswBtn{
+	border-left-width: 0;
+}
+
+.myErrBox{
+	position: relative;
+    animation: shake .1s linear;
+    animation-iteration-count: 3;
+	border: 3px solid #D63230 !important;
+	border-radius: 0.3em!important;
+}
+@keyframes shake {
+	0% { left: -5px; }
+    100% { right: -5px; }
+}
+
+.fscaling-1{
+	@include font-size(1rem)
+}
+.fscaling-2{
 	@include font-size(2rem)
+}
+.fscaling-3{
+	@include font-size(3rem)
+}
+.fscaling-4{
+	@include font-size(4rem)
+}
+.fscaling-5{
+	@include font-size(5rem)
 }
 
