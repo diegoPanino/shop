@@ -5,19 +5,19 @@ import SignUpForm from './SignUpForm.js'
 import LogInForm from './LogInForm.js'
 import DashBoard from './DashBoardPage.js'
 import {signUp} from '../api/api.js'
+import {useLocation, Navigate, Outlet} from 'react-router-dom'
+import {getAuth} from '../helper/helper.js'
 
-export default function AccountPage(){
-	const storage = window.localStorage
-	const [route,setRoute] = useState('login')
-	const [signUpEsit,setSignUpEsit] = useState({err:false,msg:''})
- 
-	useEffect(()=>{
-		if(storage.getItem('username') && storage.getItem('email'))
-			setRoute('dashboard')
-		// eslint-disable-next-line
-	},[])
+//account page has to check if the user is logged in or not and re route to the correct page
+//dashboard if the user already had done the login 
+//loginform if the user did not sign in
 
-	const onChangeRoute = newRoute => {
+export default function RequireAuth({children}){
+	const isLogged = getAuth()
+	let location = useLocation()
+	
+
+	/*const onChangeRoute = newRoute => {
 		setRoute(newRoute)
 	}
 	const onSubmitHandler = e =>{
@@ -50,10 +50,14 @@ export default function AccountPage(){
 				console.log('CatchRes',err)
 			})
 		}
-	}
+	}*/
 
-	return (
-		<>
+	return isLogged ? children : <Navigate to = '/login' state = {{from:location}} />
+}
+
+
+/*
+<>
 		<Header />
 		<MainNavigationBar/>
 		{
@@ -65,5 +69,4 @@ export default function AccountPage(){
 		}
 		
 		</>
-		)
-}
+*/

@@ -1,15 +1,35 @@
-import React from 'react'
+import React,{useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import InputSignField from './InputSignField.js'
 import {BsAt , BsFillShieldLockFill} from 'react-icons/bs'
+import {Navigate, Link} from 'react-router-dom'
+import {getAuth} from '../helper/helper.js'
 
-export default function LogInForm({route,submit}){
-	const onChangeRoute = () =>{
-		route('signup')
+export default function LogInForm(){
+	const [validInput,setValidInput] = useState({email:true,psw:true})
+	const isLogged = getAuth()
+
+	if(isLogged)
+		return <Navigate to ='/user' />
+
+	const validInputHandler = isValid => {
+		setValidInput({...validInput,...isValid})
 	}
+
+	const submit = e =>{
+		e.preventDefault()
+		const formData = {
+			email:e.target.email.value,
+			psw:e.target.psw.value,
+		}
+		console.log('submit',formData)
+		//login fetch
+	}
+
+	
 	return (
 		<Container fluid = 'sm'>
 			<Row sm = '1' className = 'justify-content-center' >
@@ -19,6 +39,7 @@ export default function LogInForm({route,submit}){
 							<Row>
 								<Col className = 'gy-3'>
 									<InputSignField 
+										valid = {validInputHandler}
 										label = 'Your email'
 										icon = {<BsAt size = '1em'/>} 
 										type = 'email' ariaLabel = 'Email'
@@ -28,7 +49,8 @@ export default function LogInForm({route,submit}){
 							</Row>
 							<Row>
 								<Col className = 'gy-3'>
-									<InputSignField 
+									<InputSignField
+										valid = {validInputHandler}
 										label = 'Your password'
 										icon = {<BsFillShieldLockFill size = '1em'/>} 
 										type = 'password' ariaLabel = 'Password'
@@ -38,10 +60,11 @@ export default function LogInForm({route,submit}){
 							</Row>
 							<Row >
 								<Col className = 'gy-3 d-flex justify-content-end'>
-									<Button type = 'submit' className = 'm-1 p-2 fscaling-2 fw-bold' >
+									<Button type = 'submit' className = 'm-1 p-2 fscaling-2 fw-bold' 
+										disabled = {!( validInput.email && validInput.psw) }>
 										Log in
 									</Button>
-									<Button  className = 'myLink mx-2 fs-5 p-0 bg-surface align-self-end' onClick = {onChangeRoute}>
+									<Button as = {Link} to = '/signup' className = 'myLink mx-2 fs-5 p-0 bg-surface align-self-end' >
 										or sign up
 									</Button>
 								</Col>

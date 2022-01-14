@@ -42,7 +42,7 @@ export default function MainNavigationBar(){
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link as = {Link} to ='/login' eventKey = 'account'>
+                  <Nav.Link as = {Link} to ='/user' eventKey = 'account'>
                     <Button onClick = {onUserClickHandler} className = 'rounded-circle p-2'>
                       <BsFillPersonFill size = '2.5em' color = '#19647e'/>
                     </Button>

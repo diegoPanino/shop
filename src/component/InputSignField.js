@@ -1,14 +1,21 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
 import {BsFillEyeFill , BsFillEyeSlashFill} from 'react-icons/bs'
 
-export default function InputSignField({name,label,icon,type,placeholder,ariaLabel}){
+export default function InputSignField({name,label,icon,type,placeholder,ariaLabel,valid}){
 	const [input,setInput] = useState('')
 	const [showPsw,setShowPsw] = useState(false)
 	const [isInvalid,setIsInvalid] = useState(false)
 	const psw = type === 'password' ? true : false
 	
+	useEffect(()=>{
+		if(isInvalid.length > 0 )
+			valid({[name]:false})
+		else
+			valid({[name]:true})
+	},[isInvalid])
+
 	const toggleShowPsw = () =>{
 		setShowPsw(!showPsw)
 	}

@@ -4,6 +4,7 @@ import Header from './Header.js'
 import MainNavigationBar from './MainNavigationBar.js'
 
 export default function WishListPage(){
+	console.log('wishlist')
 	return (
 		<>
 			<Header />

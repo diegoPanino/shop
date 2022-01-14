@@ -6,8 +6,7 @@ import MainNavigationBar from './MainNavigationBar.js'
 export default function CartPage(){
 	return (
 		<>
-			<Header />
-			<MainNavigationBar />
+
 			<p>Cart Page</p>
 		</>
 		)
