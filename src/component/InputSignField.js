@@ -3,7 +3,7 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
 import {BsFillEyeFill , BsFillEyeSlashFill} from 'react-icons/bs'
 
-export default function InputSignField({name,label,icon,type,placeholder,ariaLabel,valid}){
+export default function InputSignField({name,label,icon,type,placeholder,ariaLabel,valid,onFocus,redBoxOn,onChange=false}){
 	const [input,setInput] = useState('')
 	const [showPsw,setShowPsw] = useState(false)
 	const [isInvalid,setIsInvalid] = useState(false)
@@ -24,10 +24,14 @@ export default function InputSignField({name,label,icon,type,placeholder,ariaLab
 		const {value} = e.target
 		setIsInvalid(validation(value))
 		setInput(value)
+		if(onChange) onChange()
+		
 	}
 
 	const focusHandler = e =>{
 		e.target.select()
+		if(!(onFocus in window))
+			onFocus()
 	}
 
 	const validation = string => {			//when invalid return error msg when valid false
@@ -56,7 +60,7 @@ export default function InputSignField({name,label,icon,type,placeholder,ariaLab
 		<Form.Label className = {isInvalid !== false ? 'fs-4 text-danger' : 'fs-3'}>
 			{isInvalid !== false ? isInvalid : label}
 		</Form.Label>
-		<InputGroup size = 'lg' className = {isInvalid !== false ? 'myErrBox ' : ''}>
+		<InputGroup size = 'lg' className = {(isInvalid !== false) || redBoxOn ? 'myErrBox ' : ''}>
 			<InputGroup.Text className = 'text-info bg-primary'>
 				{icon}
 			</InputGroup.Text>

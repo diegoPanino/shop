@@ -6,17 +6,20 @@ import Button from 'react-bootstrap/Button'
 import InputSignField from './InputSignField.js'
 import {BsFilePerson , BsAt , BsFillShieldLockFill} from 'react-icons/bs'
 import {useNavigate,Link} from 'react-router-dom'
-import {getAuth} from '../helper/helper.js'
+import {getAuth,useElementOnScreen} from '../helper/helper.js'
 import {signUp} from '../api/api.js'
 
 export default function SignUpForm(){
 	const [esit,setEsit] = useState({err:false,msg:''})
 	const [validInput,setValidInput] = useState({username:true,email:true,psw:true})
+	const [containerRef,isVisible] = useElementOnScreen({threshold:0.8})
 	const isLogged = getAuth()
 	const navigate = useNavigate()
 
 	if(isLogged)
 		navigate('/user')
+
+
 
 	const validInputHandler = isValid => {
 		setValidInput({...validInput,...isValid})
@@ -24,6 +27,14 @@ export default function SignUpForm(){
 
 	const onBlurHandler = () =>{
 		setEsit({err:false,msg:''})
+	}
+
+	const onChangeHandler = () =>{
+		if(esit.err) setEsit({err:false,msg:''})
+	}
+
+	const scrollToSubmitHandler = () => {
+		containerRef.current.scrollIntoView()
 	}
 
 	const submit = e => {
@@ -36,9 +47,12 @@ export default function SignUpForm(){
 		}
 		signUp(formData)
 		.then(res => {
-			if(!res.status)
+			if(!res.status){
+				scrollToSubmitHandler() //if press enter focus on btn
 				setEsit(prevState => ({...prevState,err:true,msg:res.data}))
+			}
 			else{
+				scrollToSubmitHandler() //if press enter focus on btn
 				setEsit({err:'success',msg:'Registration complete! Redirect to login...'})
 				setTimeout(()=>navigate('/login'),2500)
 			}
@@ -53,6 +67,9 @@ export default function SignUpForm(){
 							<Row>
 								<Col className = 'gy-3'>
 									<InputSignField
+										onChange = {onChangeHandler}
+										redBoxOn = {esit.msg === 'Account already taken!'}
+										onFocus = {onBlurHandler}
 										valid = {validInputHandler} 
 										label = 'How we are going to address you'
 										icon = {<BsFilePerson size = '1em'/>} 
@@ -64,6 +81,9 @@ export default function SignUpForm(){
 							<Row>
 								<Col className = 'gy-3'>
 									<InputSignField
+										onChange = {onChangeHandler}
+										redBoxOn = {esit.msg === 'Account already taken!'}
+										onFocus = {onBlurHandler}
 										valid = {validInputHandler} 
 										label = 'How we are going to reach you'
 										icon = {<BsAt size = '1em'/>} 
@@ -75,6 +95,8 @@ export default function SignUpForm(){
 							<Row>
 								<Col className = 'my-3'>
 									<InputSignField
+										onChange = {onChangeHandler}
+										onFocus = {scrollToSubmitHandler}
 										valid = {validInputHandler} 
 										label = 'Choice a secure password'
 										icon = {<BsFillShieldLockFill size = '1em'/>} 
@@ -95,10 +117,12 @@ export default function SignUpForm(){
 							<Row >
 								<Col className = 'gy-3 d-flex justify-content-end'>
 									<Button type = 'submit' className = 'm-1 p-2 fscaling-2 fw-bold' onBlur = {onBlurHandler}
-									 disabled = {!(validInput.username && validInput.email && validInput.psw) }>
+									 disabled = {!(validInput.username && validInput.email && validInput.psw) || esit.err }
+									 ref = {containerRef}>
 										Sign up
 									</Button>
-									<Button as = {Link} to = '/login' className = 'myLink mx-2 fs-5 p-0 bg-surface align-self-end'>
+									<Button as = {Link} to = '/login'
+									className = {isVisible ? 'myLink mx-2 fs-5 p-0 bg-surface align-self-end' : 'myLink mx-2 fs-5 p-0 bg-surface align-self-start'}>
 										or log in
 									</Button>
 								</Col>
