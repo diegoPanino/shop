@@ -39,12 +39,14 @@ export default function LogInForm(){
 
 	const submit = e =>{
 		e.preventDefault()
+		setIsLoading(true)
 		const formData = {
 			email:e.target.email.value,
 			psw:e.target.psw.value,
 		}
 		logIn(formData)
 		.then(({data,status})=>{
+			setIsLoading(false)
 			if(status) {
 				setA(data.a)
 				setR(data.r)
@@ -55,11 +57,12 @@ export default function LogInForm(){
 				setEsit({err:true,msg:data})
 		})
 		.catch(err =>{
-			console.log('LogInForm.js submit =>',err)
+			setIsLoading(false)
+			setEsit({err:true,msg:'Sorry we are not able to let you login now, try later!'})
 		})
 	}
 
-	if(isLoading) return <LoadingIndicator />
+	if(isLoading) return <LoadingIndicator  />
 
 	return (
 		<Container fluid = 'sm'>

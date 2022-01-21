@@ -3,8 +3,8 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
 import {BsFillEyeFill , BsFillEyeSlashFill} from 'react-icons/bs'
 
-export default function InputSignField({name,label,icon,type,placeholder,ariaLabel,valid,onFocus,redBoxOn,onChange=false}){
-	const [input,setInput] = useState('')
+export default function InputSignField({value='',name,label,icon,type,placeholder,ariaLabel,valid,onFocus,redBoxOn,onChange=false,myStyle=null}){
+	const [input,setInput] = useState(value)
 	const [showPsw,setShowPsw] = useState(false)
 	const [isInvalid,setIsInvalid] = useState(false)
 	const psw = type === 'password' ? true : false
@@ -35,7 +35,7 @@ export default function InputSignField({name,label,icon,type,placeholder,ariaLab
 	}
 
 	const validation = string => {			//when invalid return error msg when valid false
-		if(string.length === 0)
+		if(string.length <= 1)
 			return false
 		switch(name){
 			case 'username':{
@@ -50,6 +50,17 @@ export default function InputSignField({name,label,icon,type,placeholder,ariaLab
 			case 'psw':{
 				const valid = (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).test(string)
 				return valid ? false : 'Password has to be min 8 chars, at least one uppercase letter, one lowercase letter, one number and one special character'
+			}
+			case 'name': case'surname':{
+				const valid = (/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{1,}$/g).test(string)
+				return valid ? false : 'Char not allowed'
+			}
+			case 'phone':{
+				const valid = (/\d/g).test(string) //function to change +39 into 0039 
+				return valid ? false : 'Only numbers'
+			}
+			case 'date':{ //need to be implemented
+				return false
 			}
 			default: {return 'Looks like something went wrong!'}
 		}
@@ -67,7 +78,7 @@ export default function InputSignField({name,label,icon,type,placeholder,ariaLab
 			<Form.Control as = 'input' type = {psw ? showPsw ? 'text' : type : type}
 						  onChange = {inputHandler} onFocus = {focusHandler}
 						  value = {input} required
-						  className = {psw ? 'myPswInput' : ''} maxLength  = '32' name = {name}
+						  className = {psw ? 'myPswInput' : myStyle ? myStyle : ''} maxLength  = '32' name = {name}
 			 			  placeholder = {placeholder} aria-label = {ariaLabel}/>
 			{ psw &&
 			<InputGroup.Text className = 'bg-body myHSPswBtn'>

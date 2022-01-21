@@ -79,6 +79,12 @@ input.myPswInput.form-control:focus + .myHSPswBtn{
     100% { right: -5px; }
 }
 
+.inputNumberHideArrow{
+  -webkit-appearance: none;
+  -moz-appearance:textfield;
+  margin: 0;
+}
+
 .fscaling-1{
 	@include font-size(1rem)
 }

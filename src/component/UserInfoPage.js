@@ -1,14 +1,13 @@
-import React,{useState} from 'react'
+import React from 'react'
 import Col from 'react-bootstrap/Col'
+import PersonalInfoForm from './PersonalInfoForm.js'
 
 export default function UserInfoPage(){
-	console.log('info')
-	const [state,setState] = useState(10)
+	const values = {username:'diego',name:'Diego',surname:'Tieso',tel:'3924106293',birth:'1990-03-01',}
 	return (
-		<Col sm = {{offset:1,span:8}} className = 'bg-surface'>
-			<p>UserInfoPage</p>
-			<button onClick = {()=>setState(prev=>prev+1)}>click</button>
-			<p>state:{state}</p>
+		<Col className = 'bg-surface'>
+			<h1 className = 'text-center'>My personal details</h1>
+			<PersonalInfoForm values = {values} />
 		</Col>
 		)
 }

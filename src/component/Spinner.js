@@ -2,6 +2,8 @@ import Spinner from 'react-bootstrap/Spinner'
 
 export default function LoadingIndicator(){
 	return (
-		<Spinner animation = 'grow' variant = 'primary'/>
+		<div className = 'd-flex justify-content-center'>
+			<Spinner animation = 'grow' variant = 'secondary'/>
+		</div>
 		)
 }

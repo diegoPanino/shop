@@ -7,8 +7,8 @@ import {Link,Outlet} from 'react-router-dom'
 
 export default function AccountNav(){
 	return (
-		<Container className = 'bg-secondary p-5'>
-			<Row xs = {1} sm = {5} >
+		<Container fluid className = 'bg-secondary'>
+			<Row xs = {1} sm = {2} className = ''>
 				<Col xs = {1} sm = {3} >
 					<Nav defaultActiveKey = 'info' className = 'flex-column'>
 						<Nav.Link as = {Link} to = 'user/info' className = 'myLink fs-2' >My details</Nav.Link>
@@ -17,7 +17,7 @@ export default function AccountNav(){
 						<Nav.Link as = {Link} to = 'user/logout' className = 'myLink fs-2' >Logout</Nav.Link>
 					</Nav>
 				</Col>
-				<Col sm = {9} className = 'bg-surface p-5'>
+				<Col sm = {9} className = 'bg-surface '>
 					<Outlet/>
 				</Col>
 			</Row>

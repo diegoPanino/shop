@@ -45,6 +45,7 @@ export default function SignUpForm(){
 	const submit = e => {
 		e.preventDefault()
 		setEsit(prevState => ({...prevState,err:false,msg:''}))
+		setIsLoading(true)
 		const formData = {
 			username:e.target.username.value,
 			email:e.target.email.value,
@@ -52,6 +53,7 @@ export default function SignUpForm(){
 		}
 		signUp(formData)
 		.then(res => {
+			setIsLoading(false)
 			if(!res.status){
 				scrollToSubmitHandler() //if press enter focus on btn
 				setEsit(prevState => ({...prevState,err:true,msg:res.data}))
@@ -59,8 +61,12 @@ export default function SignUpForm(){
 			else{
 				scrollToSubmitHandler() //if press enter focus on btn
 				setEsit({err:'success',msg:'Registration complete! Redirect to login...'})
-				setTimeout(()=>navigate('/login'),2500)
+				setTimeout(()=>navigate('/login'),750)
 			}
+		})
+		.catch(err => {
+			setIsLoading(false)
+			setEsit({err:true,msg:'Sorry looks like we\'re busy at the office. Try later'})
 		})
 	}
 
