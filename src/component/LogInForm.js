@@ -1,23 +1,29 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
+import LoadingIndicator from './Spinner.js'
 import InputSignField from './InputSignField.js'
 import {BsAt , BsFillShieldLockFill} from 'react-icons/bs'
 import {useNavigate, Link} from 'react-router-dom'
 import {logIn} from '../api/api.js'
-import {getAuth} from '../helper/helper.js'
+import {getAuth,setA,setR} from '../helper/helper.js'
 
 export default function LogInForm(){
 	const [validInput,setValidInput] = useState({email:true,psw:true})
+	const [isLogged,setIsLogged] = useState()
+	const [isLoading,setIsLoading] = useState(true)
 	const [esit,setEsit] = useState({err:false,msg:''})
 	const navigate = useNavigate()
-	const storage = window.localStorage
-	const isLogged = getAuth()
 
-	if(isLogged)
-		navigate('/user')
+	useEffect(()=>{
+		getAuth().then(res => setIsLogged(res.status))
+	},[])
+	useEffect(()=>{
+		if(typeof isLogged === 'boolean') setIsLoading(false)
+		if(isLogged) navigate('/user/info')			// eslint-disable-next-line
+	},[isLogged])
 
 	const validInputHandler = isValid => {
 		setValidInput({...validInput,...isValid})
@@ -40,10 +46,10 @@ export default function LogInForm(){
 		logIn(formData)
 		.then(({data,status})=>{
 			if(status) {
-				storage.setItem('a',data.a)
-				storage.setItem('r',data.r)
+				setA(data.a)
+				setR(data.r)
 				setEsit({err:'success',msg:'Let\'s get in mate!'})
-				setTimeout(()=>navigate('/user'),500)
+				setTimeout(()=>navigate('/user/info'),500)
 			}
 			else
 				setEsit({err:true,msg:data})
@@ -53,7 +59,8 @@ export default function LogInForm(){
 		})
 	}
 
-	
+	if(isLoading) return <LoadingIndicator />
+
 	return (
 		<Container fluid = 'sm'>
 			<Row sm = '1' className = 'justify-content-center' >
@@ -113,47 +120,3 @@ export default function LogInForm(){
 		</Container>
 		)
 }
-
-
-/*
-<Container fluid = 'sm'>
-			<Row sm = '1' className = 'justify-content-center' >
-				<Col sm = 'auto' md = '8' lg = '6' className = 'bg-surface p-3'>
-					<Container>
-						<Row>
-							<Col className = 'gy-3'>
-								<Form.Label className = 'fs-3'>Your email</Form.Label>
-								<InputGroup size = 'lg'>
-									<InputGroup.Text className = 'text-info bg-primary'>
-										<BsAt size = '1em'/>
-									</InputGroup.Text>
-									<FormControl type = 'email' placeholder = 'Email' aria-label = 'Email'/>	
-								</InputGroup>
-							</Col>
-						</Row>
-						<Row>
-							<Col className = 'gy-3'>
-								<Form.Label className = 'fs-3'>Your password</Form.Label>
-								<InputGroup size = 'lg' className = 'm5'>
-									<InputGroup.Text className = 'text-info bg-primary'>
-										<BsFillShieldLockFill size = '1em'/>
-									</InputGroup.Text>
-									<FormControl type = 'password' placeholder = 'Password' aria-label = 'Password'/>
-								</InputGroup>
-							</Col>
-						</Row>
-						<Row >
-							<Col className = 'gy-3 d-flex justify-content-end'>
-								<Button className = 'm-1 p-2 fscaling-2 fw-bold' >
-									Log in
-								</Button>
-								<Button  className = 'myLink mx-2 fs-5 p-0 bg-surface align-self-end' onClick = {onChangeRoute}>
-									or sign up
-								</Button>
-							</Col>
-						</Row>
-					</Container>
-				</Col>
-			</Row>
-		</Container>
-*/

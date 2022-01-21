@@ -1,14 +1,11 @@
 import React from 'react'
-//import Container from 'react-bootstrap/Container'
-import Header from './Header.js'
-import MainNavigationBar from './MainNavigationBar.js'
+import Col from 'react-bootstrap/Col'
 
 export default function ShopHistoryPage(){
+	console.log('history')
 	return (
-		<>
-			<Header />
-			<MainNavigationBar />
+		<Col sm = {{offset:1,span:8}} className = 'bg-surface'>
 			<p>ShopHistoryPage</p>
-		</>
+		</Col>
 		)
 }

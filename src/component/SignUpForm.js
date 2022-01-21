@@ -1,9 +1,10 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import InputSignField from './InputSignField.js'
+import LoadingIndicator from './Spinner.js'
 import {BsFilePerson , BsAt , BsFillShieldLockFill} from 'react-icons/bs'
 import {useNavigate,Link} from 'react-router-dom'
 import {getAuth,useElementOnScreen} from '../helper/helper.js'
@@ -13,13 +14,17 @@ export default function SignUpForm(){
 	const [esit,setEsit] = useState({err:false,msg:''})
 	const [validInput,setValidInput] = useState({username:true,email:true,psw:true})
 	const [containerRef,isVisible] = useElementOnScreen({threshold:0.8})
-	const isLogged = getAuth()
+	const [isLogged,setIsLogged] = useState()
+	const [isLoading,setIsLoading] = useState(true)
 	const navigate = useNavigate()
 
-	if(isLogged)
-		navigate('/user')
-
-
+	useEffect(()=>{
+		getAuth().then(res => setIsLogged(res.status))
+	},[])
+	useEffect(()=>{
+		if(typeof isLogged === 'boolean') setIsLoading(false)
+		if(isLogged) navigate('/user')			// eslint-disable-next-line
+	},[isLogged])
 
 	const validInputHandler = isValid => {
 		setValidInput({...validInput,...isValid})
@@ -58,6 +63,9 @@ export default function SignUpForm(){
 			}
 		})
 	}
+
+	if(isLoading) return <LoadingIndicator />
+
 	return (
 		<Container fluid = 'sm' key = 'signUpForm'>
 			<Row sm = '1' className = 'justify-content-center' >

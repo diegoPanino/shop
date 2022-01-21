@@ -13,16 +13,9 @@ export default function MainNavigationBar(){
   const onSearchHandler = input =>{
       console.log('MainNavigationBar.js.js,input:',input)
   }
-  const onCartClickHandler = () =>{
-      console.log('MainNavigationBar.js cart click')
-  }
-  const onUserClickHandler = () =>{
-    console.log('MainNavigationBar.js user click')
-  }
-
 
   return (
-    <Container fluid>
+    <Container fluid className = 'my-5'>
       <Row className = 'align-items-baseline'>
         <Col xs = {10} sm = {10}  >
           <SearchInput onSearch = {(input)=>onSearchHandler(input)} />
@@ -36,14 +29,14 @@ export default function MainNavigationBar(){
               <Nav>
                 <Nav.Item>
                   <Nav.Link as = {Link} to ='/cart' eventKey = 'cart'>
-                    <button onClick = {onCartClickHandler} className = 'bg-primary rounded-circle p-2'>
+                    <Button  className = 'bg-primary rounded-circle p-2'>
                       <BsFillCartFill size = '2.5em' color = '#19647e'/>
-                    </button>
+                    </Button>
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link as = {Link} to ='/user' eventKey = 'account'>
-                    <Button onClick = {onUserClickHandler} className = 'rounded-circle p-2'>
+                  <Nav.Link as = {Link} to ='/login' eventKey = 'account'>
+                    <Button  className = 'bg-primary rounded-circle p-2'>
                       <BsFillPersonFill size = '2.5em' color = '#19647e'/>
                     </Button>
                   </Nav.Link>

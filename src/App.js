@@ -1,5 +1,5 @@
 import './app.scss';
-import React, { useEffect, useState } from "react"
+import React from "react"
 import Header from './component/Header.js'
 import MainNavigationBar from './component/MainNavigationBar.js'
 import CartPage from './component/CartPage.js'
@@ -9,9 +9,9 @@ import RequireAuth from './component/RequireAuth.js'
 import UserInfoPage from './component/UserInfoPage.js'
 import ShopHistoryPage from './component/ShopHistoryPage.js'
 import WishListPage from './component/WishListPage.js'
-import DashboardPage from './component/DashBoardPage.js'
-import Test from './component/Test.js'
-import {Route , Routes , Outlet , useLocation} from 'react-router-dom'
+import LogoutPage from './component/LogoutPage.js'
+import AccountNav from './component/AccountNav.js'
+import {Route , Routes , Outlet } from 'react-router-dom'
 
 
 export default function App(){
@@ -21,29 +21,35 @@ export default function App(){
           <Route path = 'cart' element = { <CartPage/> }/>
           <Route path = 'login' element = { <LogInForm/> }/>
           <Route path = 'signup' element = { <SignUpForm/> }/>
-          <Route path = 'user' element = { 
+          <Route element = { 
                                       <RequireAuth> 
-                                        <DashboardPage/>
+                                        <AccountNav/>
                                       </RequireAuth>
                                     }
           >
-            <Route path = 'info' element = { 
+            <Route path = 'user/info' element = { 
                                         <RequireAuth> 
                                           <UserInfoPage/>
                                         </RequireAuth>
                                       } 
             />
-            <Route path = 'history' element = { 
+            <Route path = 'user/history' element = { 
                                         <RequireAuth> 
                                           <ShopHistoryPage/>
                                         </RequireAuth>
                                       } 
             />
-            <Route path = 'wishlist' element = { 
+            <Route path = 'user/wishlist' element = { 
                                         <RequireAuth> 
                                           <WishListPage/>
                                         </RequireAuth>
                                       } 
+            />
+            <Route path = 'user/logout' element = {
+                                        <RequireAuth> 
+                                          <LogoutPage/>
+                                        </RequireAuth>
+                                      }
             />
           </Route>
         </Route>
