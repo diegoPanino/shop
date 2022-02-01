@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button'
 import {logout} from '../api/api.js'
 
 export default function LogoutPage(props){
-	console.log('logout')
 	const {user,navigate} = props
 	const [msg,setMsg] = useState({msg:'',err:''})
 
@@ -28,7 +27,7 @@ export default function LogoutPage(props){
 		return <><p className = {!msg.err ? 'fscaling-2 text-success text-center' : 'fscaling-2 text-danger text-center' }>{msg.msg}</p></>
 	return (
 		<>
-			<Row>
+			<Row className = 'mt-5'>
 				<p className = 'fscaling-2 primary text-center'>Is very sad to see you leaving {user.name}...</p>	
 			</Row>
 			<Row sm = {1} md = {2} lg= 'auto' className = 'justify-content-center'>

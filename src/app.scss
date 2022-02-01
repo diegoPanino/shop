@@ -33,11 +33,62 @@ $font-size-base: 1rem;
 .navbar-toggler:focus{
 	box-shadow: none;
 }
+.nav-link,.nav-link:focus{
+  color:#ffd685;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+.nav-link:hover{
+  color:#ffc247;
+
+}
+.accNavBar{
+  position:sticky;
+  top:30%;
+}
+.accountNavLink.active{
+  background:linear-gradient(to right,#200212 50%,#119da4 50%) right;
+  background-position: right;
+  background-size: 200%;
+  transition: .5s ease-out;
+  font-weight: bold;
+  color:#200212;
+  background-color:#119da4;
+  background-position: right;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  
+}
+
+
+.subMenuAccAni.enter,.subMenuAccAni.appear{
+  max-height: 0;
+  transition: max-height 500ms linear;
+  overflow: hidden;
+}
+.subMenuAccAni.enter-active,.subMenuAccAni.appear-active{
+  max-height: 100px;
+  transition: max-height 500ms linear
+}
+.subMenuAccAni.exit{
+  max-height: 100px;
+  transition: max-height 500ms linear;
+  overflow: hidden;
+}
+.subMenuAccAni.exit-active{
+  max-height: 0;
+  transition:max-height 500ms linear;
+}
+
+
+.navBarCornerLeft{
+  border-top-left-radius: 30px!important;
+  border-top-width:1px;
+}
 
 button:hover{
 	transform: scale(1.1)
 }
-
 .myLink{
 	color: #ffd685;
 	border-width: 0;
@@ -63,6 +114,7 @@ input.myPswInput.form-control:focus + .myHSPswBtn{
 	border-color: #19647e!important;
 	border-left-width: 0!important;
 }
+
 .myHSPswBtn{
 	border-left-width: 0;
 }

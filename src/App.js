@@ -62,7 +62,7 @@ function Layout(){
 	<>
 	  <Header className = 'container-fluid' />        
       <MainNavigationBar />
-      <Outlet />
+      <Outlet/>
     </>
       )
 }

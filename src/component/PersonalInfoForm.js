@@ -12,57 +12,45 @@ export default function PersonalInfoForm({values}){
 		type:'text',
 		placeholder:'First name',
 		ariaLabel:'First name',
-		valid:'',
-		onFocus:'',
-		redBoxOn:'',
-		onChange:'',
 		col:{md:6,xl:6},
 	},{
 		name:'surname',
+		required: false,
 		value:values.surname,
 		label:'Surname',
 		icon:<BsFillPersonLinesFill size = '1em' />,
 		type:'text',
 		placeholder:'Surname',
 		ariaLabel:'Surname',
-		valid:'',
-		onFocus:'',
-		redBoxOn:'',
-		onChange:'',
 		col:{md:6,xl:6},
 	},{
 		name:'phone',
+		required: false,
 		value:values.tel,
 		label:'Telephone',
 		icon:<BsFillTelephoneFill size = '1em' />,
-		type:'number',
+		type:'tel',
 		placeholder:'Phone number',
 		ariaLabel:'Phone number',
-		valid:'',
-		onFocus:'',
-		redBoxOn:'',
-		onChange:'',
 		col:{md:6,xl:4},
-		myStyle:'inputNumberHideArrow',
 	},{
 		name:'',
 		col:7
 	},
 	{
 		name:'date',
+		required: false,
 		value:values.birth,
 		label:'Birthday',
 		icon:<BsFillCalendarMonthFill size = '1em' />,
 		type:'date',
 		placeholder:'Date of birth',
 		ariaLabel:'Date of birth',
-		valid:'',
-		onFocus:'',
-		redBoxOn:'',
-		onChange:'',
 		col:{md:6,xl:4},
+		myStyle: 'inputDate'
 	},
 	]
+	const validationObj = {name:true,surname:true,phone:true,date:true}
 
 	const onSubmitHandler = formData =>{
 		console.log('PersonalInfoForm.js data',formData)
@@ -70,8 +58,8 @@ export default function PersonalInfoForm({values}){
 	}
 
 	return (
-		<Container fluid>
-			<Form input = {inputProps} submit = {onSubmitHandler} />
+		<Container fluid className = 'border-bottom border-primary' id = 'personal'>
+			<Form input = {inputProps} submit = {onSubmitHandler} validation = {validationObj} />
 		</Container>
 		)
 }

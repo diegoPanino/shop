@@ -1,27 +1,27 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
+import ConfirmNewPswInput from './ConfirmNewPswInput.js'
 import InputSignField from './InputSignField.js'
 
 export default function Form(props){
-	const {input,submit} = props
-	const [validInput,setValidInput] = useState()
+	const {input,submit,validation} = props
+	const [validInput,setValidInput] = useState(validation)
 	const [disabledSaveBtn,setDisabledSaveBtn] = useState(true)
 	const [esit,setEsit] = useState({err:false,msg:''})
-		
+	
+	useEffect(()=>{
+		const value = Object.values(validInput)
+		const flag = value.every(Boolean)
+		if(flag)
+			setDisabledSaveBtn(false)
+		else
+			setDisabledSaveBtn(true)
+	},[validInput])
+
 	const validInputHandler = isValid => {
 		setValidInput({...validInput,...isValid})
-		console.log(validInput)
-		let flag = true
-		if(!validInput) return
-		input.forEach(el =>{
-			if(validInput[el.name] && flag )
-				flag = true
-			else
-				flag = false
-		})
-		setDisabledSaveBtn(!flag)
 	}
 	const onFocusHandler = () => {
 		setEsit({err:false,msg:''})
@@ -33,7 +33,7 @@ export default function Form(props){
 		e.preventDefault()
 		let formData
 		input.forEach(el =>{
-			if(el.value)
+			if(el.name.length > 0)
 				formData = {...formData,[el.name]: e.target[el.name].value}
 		})
 		submit(formData)
@@ -41,10 +41,13 @@ export default function Form(props){
 
 	const elements = input.map((el,i) =>{
 		if(el.name.length === 0)
-			return <Col md = {el.col}></Col>
+			return <Col md = {el.col} key = {`${i}${el.name}`}></Col>
+		if(el.name === 'confirm')
+			return <ConfirmNewPswInput onFocus = {onFocusHandler} onChange = {onChangeHandler} valid = {validInputHandler}
+					icon = {el.icon} newPswCol = {el.newPswCol} confirmPswCol = {el.confirmPswCol} key = 'confirmPsw'/>
 		return(
-		 <Col md = {el.col.md} xl = {el.col.xl}>
-		 <InputSignField name = {el.name} key = {i}
+		 <Col md = {el.col.md} xl = {el.col.xl} key = {`${i}${el.name}`}>
+		 <InputSignField name = {el.name} required = {el.required}
 		 				 type = {el.type} value = {el.value} 
 						 icon = {el.icon} label = {el.label} 
 						 placeholder = {el.placeholder} 
