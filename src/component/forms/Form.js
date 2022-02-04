@@ -1,12 +1,12 @@
 import React,{useState,useEffect} from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Button from 'react-bootstrap/Button'
-import ConfirmNewPswInput from './ConfirmNewPswInput.js'
-import InputSignField from './InputSignField.js'
+import ConfirmNewPswInput from '../input/ConfirmNewPswInput.js'
+import InputSignField from '../input/InputSignField.js'
+import SaveBtn from '../button/SaveBtn.js'
 
 export default function Form(props){
-	const {input,submit,validation} = props
+	const {input,submit,validation,btnLabel = 'save',breakpoint = {md:{span:3,offset:5}}} = props
 	const [validInput,setValidInput] = useState(validation)
 	const [disabledSaveBtn,setDisabledSaveBtn] = useState(true)
 	const [esit,setEsit] = useState({err:false,msg:''})
@@ -66,13 +66,8 @@ export default function Form(props){
 			<Row md = {12}>
 				{elements}
 			</Row>
-		<Row >
-			<Col md = {{span:3,offset:5}} >
-				<Button type = 'submit' className = 'my-4 p-2 fscaling-2 fw-bold' 
-						disabled = {disabledSaveBtn}>
-						Save
-				</Button>
-			</Col>
+		<Row>
+			<SaveBtn label = {btnLabel} breakpoint = {breakpoint} disabled = {disabledSaveBtn} />
 		</Row>
 		</form>
 		</>

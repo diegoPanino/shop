@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import NavBar from 'react-bootstrap/NavBar'
 import Nav from 'react-bootstrap/Nav'
-import SearchInput from './SearchInput.js'
+import SearchInput from '@component/input/SearchInput.js'
 import {BsFillCartFill,BsFillPersonFill,BsFillMenuAppFill} from 'react-icons/bs'
 import {Link} from 'react-router-dom'
 

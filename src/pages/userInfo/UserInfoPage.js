@@ -1,9 +1,9 @@
 import React from 'react'
 import Col from 'react-bootstrap/Col'
-import PersonalInfoForm from './PersonalInfoForm.js'
-import EmailInfoForm from './EmailInfoForm.js'
-import PasswordInfoForm from './PasswordInfoForm.js'
-import AddressInfoForm from './AddressInfoForm.js'
+import PersonalInfoForm from '@component/forms/PersonalInfoForm.js'
+import EmailInfoForm from '@component/forms/EmailInfoForm.js'
+import PasswordInfoForm from '@component/forms/PasswordInfoForm.js'
+import AddressInfoForm from '@component/forms/AddressInfoForm.js'
 
 export default function UserInfoPage(){
 	const info = {username:'diego',name:'Diego',surname:'Sanchez',tel:'123456789',birth:'1990-03-01',}

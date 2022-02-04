@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
-import {logout} from '../api/api.js'
+import logout from '@services/signOutService.js'
 
 export default function LogoutPage(props){
 	const {user,navigate} = props

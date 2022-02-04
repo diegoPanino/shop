@@ -2,7 +2,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Image from 'react-bootstrap/Image'
-import logo from '../asset/img/logo.png'
+import logo from '@asset/img/logo.png'
 
 export default function Header(){
 	return(

@@ -1,17 +1,17 @@
 import './app.scss';
 import React from "react"
-import Header from './component/Header.js'
-import MainNavigationBar from './component/MainNavigationBar.js'
-import CartPage from './component/CartPage.js'
-import LogInForm from './component/LogInForm.js'
-import SignUpForm from './component/SignUpForm.js'
-import RequireAuth from './component/RequireAuth.js'
-import UserInfoPage from './component/UserInfoPage.js'
-import ShopHistoryPage from './component/ShopHistoryPage.js'
-import WishListPage from './component/WishListPage.js'
-import LogoutPage from './component/LogoutPage.js'
-import AccountNav from './component/AccountNav.js'
 import {Route , Routes , Outlet } from 'react-router-dom'
+import Header from '@component/header/Header.js'
+import MainNavigationBar from '@component/navs/MainNavigationBar.js'
+import CartPage from '@pages/cart/CartPage.js'
+import LogInForm from '@pages/login/LogInPage.js'
+import SignUpForm from '@pages/register/SignUpPage.js'
+import RequireAuth from '@component/auth/RequireAuth.js'
+import UserInfoPage from '@pages/userInfo/UserInfoPage.js'
+import ShopHistoryPage from '@pages/shopHistory/ShopHistoryPage.js'
+import WishListPage from '@pages/wishlist/WishListPage.js'
+import LogoutPage from '@pages/logout/LogoutPage.js'
+import AccountNav from '@component/navs/AccountNav.js'
 
 
 export default function App(){

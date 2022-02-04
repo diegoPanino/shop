@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
 import {BsFillEyeFill , BsFillEyeSlashFill} from 'react-icons/bs'
-import {validateInputField} from '../helper/helper.js'
+import {validateInputField} from '@helper/inputValidation.js'
 
 export default function InputSignField({value='',name,label,icon,type,placeholder,ariaLabel,
 										valid,onFocus,redBoxOn,onChange=false,myStyle=null,required=true}){

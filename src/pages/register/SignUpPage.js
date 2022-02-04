@@ -3,12 +3,13 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
-import InputSignField from './InputSignField.js'
-import LoadingIndicator from './Spinner.js'
+import InputSignField from '@component/input/InputSignField.js'
+import LoadingIndicator from '@component/loader/Spinner.js'
 import {BsFilePerson , BsAt , BsFillShieldLockFill} from 'react-icons/bs'
 import {useNavigate,Link} from 'react-router-dom'
-import {getAuth,useElementOnScreen} from '../helper/helper.js'
-import {signUp} from '../api/api.js'
+import {useElementOnScreen} from '@helper/hooks.js'
+import signUp from '@services/signUpService.js'
+import getAuth from '@services/authService.js'
 
 export default function SignUpForm(){
 	const [esit,setEsit] = useState({err:false,msg:''})
@@ -87,8 +88,8 @@ export default function SignUpForm(){
 										valid = {validInputHandler} 
 										label = 'How we are going to address you'
 										icon = {<BsFilePerson size = '1em'/>} 
-										type = 'text' ariaLabel = 'Username'
-										placeholder = 'Username' name = 'username'
+										type = 'text' ariaLabel = 'Name'
+										placeholder = 'Real name' name = 'username'
 									/>
 								</Col>
 							</Row>

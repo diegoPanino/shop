@@ -1,9 +1,9 @@
-import React,{useState,useRef} from 'react'
+import React,{useState,useRef,useEffect} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Nav from 'react-bootstrap/Nav'
-import {Link,Outlet} from 'react-router-dom'
+import {Link,Outlet,useLocation} from 'react-router-dom'
 import {CSSTransition} from 'react-transition-group'
 
 
@@ -11,6 +11,14 @@ export default function AccountNav(){
 	const [activeKey,setActiveKey] = useState('info')
 	const [showInfoMenu,setShowInfoMenu] = useState(true)
 	const infoMenuRef = useRef(null)
+	const location = useLocation()
+
+	useEffect(()=>{
+		if(location.pathname.includes('info') && location.hash.length === 0){
+			setActiveKey('info')
+			setShowInfoMenu(true)
+		}
+	},[location])
 
 	const onSelectHandler = key => {
 		if(key.includes('info')) setShowInfoMenu(true)
@@ -57,14 +65,14 @@ export default function AccountNav(){
 						<Nav.Item>
 							<Nav.Link as = {Link} to = 'user/wishlist' eventKey = 'wishlist'
 									  className = 'border-end border-secondary fs-2 text-center m-0 accountNavLink' >
-									  Wishlist</Nav
-							.Link>
+									  Wishlist
+							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
 							<Nav.Link as = {Link} to = 'user/logout' eventKey = 'logout'
 									  className = 'border-end border-secondary fs-2 text-center m-0 accountNavLink' >
-									  Logout</Nav
-							.Link>
+									  Logout
+							</Nav.Link>
 					</Nav.Item>
 					</Nav>
 				</Col>

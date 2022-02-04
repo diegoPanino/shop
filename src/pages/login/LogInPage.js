@@ -3,12 +3,13 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
-import LoadingIndicator from './Spinner.js'
-import InputSignField from './InputSignField.js'
+import LoadingIndicator from '@component/loader/Spinner.js'
+import InputSignField from '@component/input/InputSignField.js'
 import {BsAt , BsFillShieldLockFill} from 'react-icons/bs'
 import {useNavigate, Link} from 'react-router-dom'
-import {logIn} from '../api/api.js'
-import {getAuth,setA,setR} from '../helper/helper.js'
+import logIn from '@services/signInService.js'
+import {setA,setR} from '@helper/localStorage.js'
+import getAuth from '@services/authService.js'
 
 export default function LogInForm(){
 	const [validInput,setValidInput] = useState({email:true,psw:true})
