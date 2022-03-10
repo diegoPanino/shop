@@ -6,25 +6,23 @@ import Button from 'react-bootstrap/Button'
 import LoadingIndicator from '@component/loader/Spinner.js'
 import InputSignField from '@component/input/InputSignField.js'
 import {BsAt , BsFillShieldLockFill} from 'react-icons/bs'
-import {useNavigate, Link} from 'react-router-dom'
+import {useNavigate, Link, useLocation} from 'react-router-dom'
 import logIn from '@services/signInService.js'
-import {setA,setR} from '@helper/localStorage.js'
-import getAuth from '@services/authService.js'
+import useAuth from '@hooks/useAuth.js'
+import {validateInputField} from '@helper/inputValidation.js'
 
 export default function LogInForm(){
+	const {setAuth,auth} = useAuth() 
 	const [validInput,setValidInput] = useState({email:true,psw:true})
-	const [isLogged,setIsLogged] = useState()
-	const [isLoading,setIsLoading] = useState(true)
+	const [isLoading,setIsLoading] = useState(false)
 	const [esit,setEsit] = useState({err:false,msg:''})
 	const navigate = useNavigate()
+	const location = useLocation()
+	const from = location.state?.from?.pathname || '/user/info'
 
 	useEffect(()=>{
-		getAuth().then(res => setIsLogged(res.status))
-	},[])
-	useEffect(()=>{
-		if(typeof isLogged === 'boolean') setIsLoading(false)
-		if(isLogged) navigate('/user/info')			// eslint-disable-next-line
-	},[isLogged])
+		if(auth?.user && auth?.a) navigate(from,{replace:true}) // eslint-disable-next-line
+	},[auth])
 
 	const validInputHandler = isValid => {
 		setValidInput({...validInput,...isValid})
@@ -38,29 +36,32 @@ export default function LogInForm(){
 		if(esit.err) setEsit({err:false,msg:''})
 	}
 
-	const submit = e =>{
+	const submit = async (e) =>{
 		e.preventDefault()
-		setIsLoading(true)
+		const email = e.target.email.value
+		const psw = e.target.psw.value
+		const validEmail = validateInputField(email,'email')
+		const validPsw = validateInputField(psw,'psw')
+		if(validEmail || validPsw) return setEsit({err:true,msg:'Sorry we are not able to let you login now, try later!'})
 		const formData = {
-			email:e.target.email.value,
-			psw:e.target.psw.value,
+			email:email,
+			psw:psw,
 		}
-		logIn(formData)
-		.then(({data,status})=>{
+		try{
+			setIsLoading(true)
+			const response = await logIn(formData)
+			console.log('response',response)
+			setIsLoading(false) 
+			if(response.status === false) return setEsit({err:true,msg:response.data})
+			const a = response?.a
+			setEsit({err:'success',msg:'Let\'s get in mate!'})
+			setAuth({user:email,a})
+		}
+		catch(err){
 			setIsLoading(false)
-			if(status) {
-				setA(data.a)
-				setR(data.r)
-				setEsit({err:'success',msg:'Let\'s get in mate!'})
-				setTimeout(()=>navigate('/user/info'),500)
-			}
-			else
-				setEsit({err:true,msg:data})
-		})
-		.catch(err =>{
-			setIsLoading(false)
+			console.log('login',err)
 			setEsit({err:true,msg:'Sorry we are not able to let you login now, try later!'})
-		})
+		}
 	}
 
 	if(isLoading) return <LoadingIndicator  />

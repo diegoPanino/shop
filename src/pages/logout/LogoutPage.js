@@ -1,11 +1,14 @@
 import React, {useState} from 'react'
+import { useNavigate } from "react-router-dom";
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import logout from '@services/signOutService.js'
 
-export default function LogoutPage(props){
-	const {user,navigate} = props
+export default function LogoutPage(){
+	//const user = useOutletContext()
+	const user = {name:'fake'} 
+	const navigate = useNavigate()
 	const [msg,setMsg] = useState({msg:'',err:''})
 
 	const confirmLogoutBtn = () =>{

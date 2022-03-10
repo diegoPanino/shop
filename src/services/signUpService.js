@@ -1,25 +1,19 @@
-import {auth} from '@constant/const.js'
+import axios from '@api/axios.js'
 
-const axios = require('axios')
-
-export default function signUp(data){
-	const options = {
-		url:auth+'/signup',
-		method:'POST',
-		headers: {
-			'Content-Type': 'application/json;charset=UTF-8'
-		},
-		data:{
-			username:data.username,
-			email:data.email,
-			psw:data.psw
-		}
+export default async function signUp(data){
+	const {username,email,psw} = data
+	try {
+		const response = await axios.post('/signup',
+			JSON.stringify({username,email,psw}),
+			{
+				headers:{'Content-Type':'application/json'},
+				withCredentials:true
+			}
+		)
+		console.log(response)
+		return response.data
 	}
-	return axios(options)
-		.then(res => {
-			return {data:res.data,status:true}
-		})
-		.catch(err => {
-			return {data:err.response.data.error,status:false}
-		})
+	catch(err){
+		return {data:err.response.data,status:false}
+	}
 }

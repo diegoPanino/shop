@@ -1,25 +1,18 @@
-import {auth} from '@constant/const.js'
+import axios from '@api/axios.js'
 
-const axios = require('axios')
-
-export default function logIn(data){
-	const options = {
-		url:auth+'/login',
-		method:'POST',
-		headers:{
-			'Content-Type': 'application/json;charset=UTF-8'
-		},
-		data:{
-			email:data.email,
-			psw:data.psw
-		}
+export default async function logIn(data){
+	const {email,psw} = data
+	try{
+		const response = await axios.post('/login',
+			JSON.stringify({email,psw}),
+			{
+				headers:{'Content-Type':'application/json'},
+				withCredentials:true
+			}
+		)
+		return response.data
 	}
-	return axios(options)
-		.then(res=>{
-			const {a,r} = res.data
-			return {data:{a,r},status:true}
-		})
-		.catch(err=>{
-			return {data:err.response.data,status:false}
-		})
+	catch(err){
+		return {data:err.response.data,status:false}
+	}
 }

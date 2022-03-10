@@ -6,26 +6,25 @@ import Button from 'react-bootstrap/Button'
 import InputSignField from '@component/input/InputSignField.js'
 import LoadingIndicator from '@component/loader/Spinner.js'
 import {BsFilePerson , BsAt , BsFillShieldLockFill} from 'react-icons/bs'
-import {useNavigate,Link} from 'react-router-dom'
+import {useNavigate,Link,useLocation} from 'react-router-dom'
 import {useElementOnScreen} from '@helper/hooks.js'
+import {validateInputField} from '@helper/inputValidation.js'
 import signUp from '@services/signUpService.js'
-import getAuth from '@services/authService.js'
+import useAuth from '@hooks/useAuth.js'
 
 export default function SignUpForm(){
+	const {auth} = useAuth()
 	const [esit,setEsit] = useState({err:false,msg:''})
 	const [validInput,setValidInput] = useState({username:true,email:true,psw:true})
 	const [containerRef,isVisible] = useElementOnScreen({threshold:0.8})
-	const [isLogged,setIsLogged] = useState()
-	const [isLoading,setIsLoading] = useState(true)
+	const [isLoading,setIsLoading] = useState(false)
 	const navigate = useNavigate()
+	const location = useLocation()
+	const from = location.state?.from?.pathname || '/login'
 
 	useEffect(()=>{
-		getAuth().then(res => setIsLogged(res.status))
-	},[])
-	useEffect(()=>{
-		if(typeof isLogged === 'boolean') setIsLoading(false)
-		if(isLogged) navigate('/user')			// eslint-disable-next-line
-	},[isLogged])
+		if(auth?.user && auth?.a) navigate(from,{replace:true}) // eslint-disable-next-line
+	},[auth])
 
 	const validInputHandler = isValid => {
 		setValidInput({...validInput,...isValid})
@@ -43,32 +42,31 @@ export default function SignUpForm(){
 		containerRef.current.scrollIntoView()
 	}
 
-	const submit = e => {
+	const submit = async (e) => {
 		e.preventDefault()
 		setEsit(prevState => ({...prevState,err:false,msg:''}))
-		setIsLoading(true)
+		const email = e.target.email.value
+		const username = e.target.username.value
+		const psw = e.target.psw.value
+		const validEmail = validateInputField(email,'email')
+		const validPsw = validateInputField(psw,'psw')
+		const validName = validateInputField(username,'name')
+		if(validEmail || validPsw || validName) return setEsit({err:true,msg:'Sorry we are not able to let you sign up now, try later!'})
 		const formData = {
-			username:e.target.username.value,
-			email:e.target.email.value,
-			psw:e.target.psw.value,
+			username:username,
+			email:email,
+			psw:psw,
 		}
-		signUp(formData)
-		.then(res => {
+		try{
+			setIsLoading(true)
+			const response = await signUp(formData)
 			setIsLoading(false)
-			if(!res.status){
-				scrollToSubmitHandler() //if press enter focus on btn
-				setEsit(prevState => ({...prevState,err:true,msg:res.data}))
-			}
-			else{
-				scrollToSubmitHandler() //if press enter focus on btn
-				setEsit({err:'success',msg:'Registration complete! Redirect to login...'})
-				setTimeout(()=>navigate('/login'),750)
-			}
-		})
-		.catch(err => {
+			//need to show msg and redirect to login
+		}
+		catch(err){
 			setIsLoading(false)
-			setEsit({err:true,msg:'Sorry looks like we\'re busy at the office. Try later'})
-		})
+			setEsit({err:'error',msg:'Sorry looks like we\'re busy at the office. Try later'})
+		}
 	}
 
 	if(isLoading) return <LoadingIndicator />
@@ -86,7 +84,7 @@ export default function SignUpForm(){
 										redBoxOn = {esit.msg === 'Account already taken!'}
 										onFocus = {onBlurHandler}
 										valid = {validInputHandler} 
-										label = 'How we are going to address you'
+										label = 'Your name'
 										icon = {<BsFilePerson size = '1em'/>} 
 										type = 'text' ariaLabel = 'Name'
 										placeholder = 'Real name' name = 'username'

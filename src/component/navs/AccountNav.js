@@ -7,11 +7,11 @@ import {Link,Outlet,useLocation} from 'react-router-dom'
 import {CSSTransition} from 'react-transition-group'
 
 
-export default function AccountNav(){
-	const [activeKey,setActiveKey] = useState('info')
+export default function AccountNav({user}){
+	const location = useLocation()
+	const [activeKey,setActiveKey] = useState(location.pathname)
 	const [showInfoMenu,setShowInfoMenu] = useState(true)
 	const infoMenuRef = useRef(null)
-	const location = useLocation()
 
 	useEffect(()=>{
 		if(location.pathname.includes('info') && location.hash.length === 0){
@@ -23,6 +23,7 @@ export default function AccountNav(){
 	const onSelectHandler = key => {
 		if(key.includes('info')) setShowInfoMenu(true)
 		else setShowInfoMenu(false)
+		console.log('key',key)
 		setActiveKey(key)
 	}
 
@@ -34,7 +35,7 @@ export default function AccountNav(){
 				<Col xs = {1} sm = {3} className = 'ps-0 drop'>
 					<Nav activeKey = {activeKey} onSelect = {onSelectHandler} className = 'flex-column accNavBar' >
 						<Nav.Item>
-							<Nav.Link as = {Link} to = 'user/info' eventKey = 'info' onClick = {()=>window.scroll(0,0)}
+							<Nav.Link as = {Link} to = 'info' eventKey = 'info' onClick = {()=>window.scroll(0,0)}
 									  className = 'border-end border-secondary fs-2 text-center m-0 accountNavLink' >
 									  My details
 							</Nav.Link>
@@ -57,19 +58,19 @@ export default function AccountNav(){
 							</CSSTransition>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link as = {Link} to = 'user/history' eventKey = 'history'
+							<Nav.Link as = {Link} to = 'history' eventKey = '/user/history'
 									  className = 'border-end border-secondary fs-2 text-center m-0 accountNavLink' >
 									  My Shop
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link as = {Link} to = 'user/wishlist' eventKey = 'wishlist'
+							<Nav.Link as = {Link} to = 'wishlist' eventKey = '/user/wishlist'
 									  className = 'border-end border-secondary fs-2 text-center m-0 accountNavLink' >
 									  Wishlist
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link as = {Link} to = 'user/logout' eventKey = 'logout'
+							<Nav.Link as = {Link} to = 'logout' eventKey = '/user/logout'
 									  className = 'border-end border-secondary fs-2 text-center m-0 accountNavLink' >
 									  Logout
 							</Nav.Link>
@@ -77,7 +78,7 @@ export default function AccountNav(){
 					</Nav>
 				</Col>
 				<Col sm = {9} className = 'py-2 align-items-center'>
-					<Outlet/>
+					<Outlet context = {user}/>
 				</Col>
 			</Row>
 		</Container>
