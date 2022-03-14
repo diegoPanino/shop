@@ -1,18 +1,17 @@
-import {auth} from '@constant/const.js'
-import {getR,removeA,removeR} from '@helper/localStorage.js'
-import axiosInstance from './interceptors.js'
+import axios from '@api/axios.js'
+import useAuth from '@hooks/useAuth.js'
 
+export default function useLogout(){
+	const {setAuth} = useAuth()
 
-export default function logout(){
-	const r = getR()
-	return axiosInstance.delete(`${auth}/logout`,{headers:{'x-refresh':r}})
-	.then(data => {
-		removeA()
-		removeR()
-		return Promise.resolve(data)
-	})
-	.catch(err => {
-		console.log('err',err)
-		return Promise.reject(err)
-	})
+	const logout = async () => {
+		setAuth({})
+		try{
+			await axios.delete('/logout',{withCredentials: true})
+		 }
+		 catch(err){
+		 	console.log(err)
+		 }
+	}
+	return logout
 }

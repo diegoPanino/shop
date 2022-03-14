@@ -7,8 +7,10 @@ import Nav from 'react-bootstrap/Nav'
 import SearchInput from '@component/input/SearchInput.js'
 import {BsFillCartFill,BsFillPersonFill,BsFillMenuAppFill} from 'react-icons/bs'
 import {Link} from 'react-router-dom'
+import useAuth from '@hooks/useAuth.js'
 
 export default function MainNavigationBar(){
+  const {auth} = useAuth()
 
   const onSearchHandler = input =>{
       console.log('MainNavigationBar.js.js,input:',input)
@@ -35,7 +37,7 @@ export default function MainNavigationBar(){
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link as = {Link} to ='/login' eventKey = 'account'>
+                  <Nav.Link as = {Link} to ={auth?.a ? 'user/info' : '/login'} eventKey = 'account'>
                     <Button  className = 'bg-primary rounded-circle p-2'>
                       <BsFillPersonFill size = '2.5em' color = '#19647e'/>
                     </Button>

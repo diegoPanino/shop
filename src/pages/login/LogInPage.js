@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 import LoadingIndicator from '@component/loader/Spinner.js'
 import InputSignField from '@component/input/InputSignField.js'
 import {BsAt , BsFillShieldLockFill} from 'react-icons/bs'
@@ -12,7 +13,7 @@ import useAuth from '@hooks/useAuth.js'
 import {validateInputField} from '@helper/inputValidation.js'
 
 export default function LogInForm(){
-	const {setAuth,auth} = useAuth() 
+	const {setAuth,auth,persist,setPersist} = useAuth() 
 	const [validInput,setValidInput] = useState({email:true,psw:true})
 	const [isLoading,setIsLoading] = useState(false)
 	const [esit,setEsit] = useState({err:false,msg:''})
@@ -23,6 +24,10 @@ export default function LogInForm(){
 	useEffect(()=>{
 		if(auth?.user && auth?.a) navigate(from,{replace:true}) // eslint-disable-next-line
 	},[auth])
+
+	useEffect(()=>{
+		localStorage.setItem('p',persist)
+	},[persist])
 
 	const validInputHandler = isValid => {
 		setValidInput({...validInput,...isValid})
@@ -64,6 +69,10 @@ export default function LogInForm(){
 		}
 	}
 
+	const togglePersist = () =>{
+		setPersist(prev => !prev)
+	}
+
 	if(isLoading) return <LoadingIndicator  />
 
 	return (
@@ -96,6 +105,12 @@ export default function LogInForm(){
 										type = 'password' ariaLabel = 'Password'
 										placeholder = 'Password' name = 'psw'
 									/>
+								</Col>
+							</Row>
+							<Row>
+								<Col className = 'gy-3'>
+									<Form.Check type = 'checkbox' label ='Remember me' id ='rememberLogIn' 
+												onChange = {togglePersist} checked = {persist}/>
 								</Col>
 							</Row>
 							{esit.err &&

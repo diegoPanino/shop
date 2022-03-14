@@ -9,9 +9,11 @@ import AccountNav from '@component/navs/AccountNav.js'
 export default function RequireAuth({children}){
 	let location = useLocation()
 	const {auth} = useAuth()
-	
+
+	console.log('RequireAuth.js auth?.a',auth?.a)
+
 	return (
-		auth?.user && auth?.a 
+		auth?.a 
 			? <AccountNav />
 			: <Navigate to = '/login' state = {{from:location}} replace />
 		)

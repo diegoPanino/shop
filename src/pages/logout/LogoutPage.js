@@ -3,19 +3,19 @@ import { useNavigate } from "react-router-dom";
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
-import logout from '@services/signOutService.js'
+import useLogout from '@services/signOutService.js'
 
 export default function LogoutPage(){
-	//const user = useOutletContext()
 	const user = {name:'fake'} 
 	const navigate = useNavigate()
 	const [msg,setMsg] = useState({msg:'',err:''})
+	const logout = useLogout()
 
-	const confirmLogoutBtn = () =>{
-		logout()
-		.then(res =>{
+	const confirmLogoutBtn =()=>{
+
+		logout().then(res =>{
 			setMsg({msg:`See you soon, ${user.name}`,err:false})
-			setTimeout(()=>navigate('/'),500)
+		//	setTimeout(()=>navigate('/'),500)
 		})
 		.catch(err =>{
 			setMsg({msg:'Oops, seems something went wrong! Try again',err:true})
@@ -24,7 +24,7 @@ export default function LogoutPage(){
 	}
 	const cancelLogoutBtn = () =>{
 		setMsg({msg:'Good choice, let\'s go shopping!',err:false})
-		setTimeout(()=>navigate('/user/info'),500)
+		setTimeout(()=>navigate('/'),500)
 	}
 	if(typeof msg.err === 'boolean') 
 		return <><p className = {!msg.err ? 'fscaling-2 text-success text-center' : 'fscaling-2 text-danger text-center' }>{msg.msg}</p></>

@@ -61,6 +61,9 @@ export default function SignUpForm(){
 			setIsLoading(true)
 			const response = await signUp(formData)
 			setIsLoading(false)
+			if(!response.status) return setEsit({err:true,msg:response.data})
+			setEsit({err:'success',msg:'Let\'s get in mate'})
+			setTimeout(()=>{navigate(from,{replace:true})},750)
 			//need to show msg and redirect to login
 		}
 		catch(err){

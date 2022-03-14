@@ -12,24 +12,36 @@ import UserInfoPage from '@pages/userInfo/UserInfoPage.js'
 import ShopHistoryPage from '@pages/shopHistory/ShopHistoryPage.js'
 import WishListPage from '@pages/wishlist/WishListPage.js'
 import LogoutPage from '@pages/logout/LogoutPage.js'
+import PersistLogin from '@component/persistLogin/PersistLogin.js'
 //import AccountNav from '@component/navs/AccountNav.js'
 
 export default function App(){
   return (
         <Routes>
+         {/*public route*/}
+
           <Route path = '/' element = {<Layout />}>  
             <Route index element = { <Home/> }/>
             <Route path = 'cart' element = { <CartPage/> }/>
             <Route path = 'login' element = { <LogInForm/> }/>
             <Route path = 'signup' element = { <SignUpForm/> }/>
-            <Route element = {<RequireAuth/>}>
-              <Route path = 'user/info' element = {<UserInfoPage/>}/>
-              <Route path = 'user/history' element = {<ShopHistoryPage/>}/>
-              <Route path = 'user/wishlist' element = {<WishListPage/>}/>
-              <Route path = 'user/logout' element = {<LogoutPage/>}/>
+            {/*private route*/}
+            <Route element = {<PersistLogin />}>
+              <Route element = {<RequireAuth/>}>
+                <Route path = 'user/info' element = {<UserInfoPage/>}/>
+              </Route>
+              <Route element = {<RequireAuth/>}>  
+                <Route path = 'user/history' element = {<ShopHistoryPage/>}/>
+              </Route>
+              <Route element = {<RequireAuth/>}>
+                <Route path = 'user/wishlist' element = {<WishListPage/>}/>
+              </Route>
+              <Route element = {<RequireAuth/>}>
+                <Route path = 'user/logout' element = {<LogoutPage/>}/>
+              </Route>
+            </Route>
           </Route>
-        </Route>
-      </Routes>
+        </Routes>
   )
 }
 
