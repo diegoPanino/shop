@@ -11,6 +11,8 @@ const aliases = (prefix = `src`) => ({
   '@config': `${prefix}/config`,
   '@context':`${prefix}/context`,
   '@hooks':`${prefix}/hooks`,
+  '@redux':`${prefix}/store`,
+  '@features':`${prefix}/store/features`,
 });
 
 module.exports = aliases;

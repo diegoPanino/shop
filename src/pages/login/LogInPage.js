@@ -9,11 +9,14 @@ import InputSignField from '@component/input/InputSignField.js'
 import {BsAt , BsFillShieldLockFill} from 'react-icons/bs'
 import {useNavigate, Link, useLocation} from 'react-router-dom'
 import logIn from '@services/signInService.js'
-import useAuth from '@hooks/useAuth.js'
+import {useSelector,useDispatch} from 'react-redux'
+import {setAuth,toggleP} from '@features/auth/authSlice.js'
 import {validateInputField} from '@helper/inputValidation.js'
 
 export default function LogInForm(){
-	const {setAuth,auth,persist,setPersist} = useAuth() 
+	const auth = useSelector(state=>state.auth)
+	const persist = auth.p
+	const dispatch = useDispatch()
 	const [validInput,setValidInput] = useState({email:true,psw:true})
 	const [isLoading,setIsLoading] = useState(false)
 	const [esit,setEsit] = useState({err:false,msg:''})
@@ -21,8 +24,14 @@ export default function LogInForm(){
 	const location = useLocation()
 	const from = location.state?.from?.pathname || '/user/info'
 
+	console.log('LogInPage.js')
+
 	useEffect(()=>{
-		if(auth?.user && auth?.a) navigate(from,{replace:true}) // eslint-disable-next-line
+		console.log('login effect')
+		if(auth?.user && auth?.a) {
+			console.log('auth exist')
+		navigate(from,{replace:true}) 
+		}// eslint-disable-next-line
 	},[auth])
 
 	useEffect(()=>{
@@ -55,12 +64,11 @@ export default function LogInForm(){
 		try{
 			setIsLoading(true)
 			const response = await logIn(formData)
-			console.log('response',response)
 			setIsLoading(false) 
 			if(response.status === false) return setEsit({err:true,msg:response.data})
 			const a = response?.a
 			setEsit({err:'success',msg:'Let\'s get in mate!'})
-			setAuth({user:email,a})
+			dispatch(setAuth({user:email,a}))
 		}
 		catch(err){
 			setIsLoading(false)
@@ -70,7 +78,7 @@ export default function LogInForm(){
 	}
 
 	const togglePersist = () =>{
-		setPersist(prev => !prev)
+		dispatch(toggleP())
 	}
 
 	if(isLoading) return <LoadingIndicator  />

@@ -26,11 +26,11 @@ export default function App(){
             <Route path = 'login' element = { <LogInForm/> }/>
             <Route path = 'signup' element = { <SignUpForm/> }/>
             {/*private route*/}
-            <Route element = {<PersistLogin />}>
+            <Route element = {<PersistLogin/>}>
               <Route element = {<RequireAuth/>}>
                 <Route path = 'user/info' element = {<UserInfoPage/>}/>
               </Route>
-              <Route element = {<RequireAuth/>}>  
+              <Route element = {<RequireAuth/>}>
                 <Route path = 'user/history' element = {<ShopHistoryPage/>}/>
               </Route>
               <Route element = {<RequireAuth/>}>

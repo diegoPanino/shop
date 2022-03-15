@@ -10,10 +10,10 @@ import {useNavigate,Link,useLocation} from 'react-router-dom'
 import {useElementOnScreen} from '@helper/hooks.js'
 import {validateInputField} from '@helper/inputValidation.js'
 import signUp from '@services/signUpService.js'
-import useAuth from '@hooks/useAuth.js'
+import {useSelector} from 'react-redux'
 
 export default function SignUpForm(){
-	const {auth} = useAuth()
+	const auth = useSelector(state=>state.auth)
 	const [esit,setEsit] = useState({err:false,msg:''})
 	const [validInput,setValidInput] = useState({username:true,email:true,psw:true})
 	const [containerRef,isVisible] = useElementOnScreen({threshold:0.8})

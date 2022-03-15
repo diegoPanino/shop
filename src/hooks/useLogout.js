@@ -1,11 +1,12 @@
 import axios from '@api/axios.js'
-import useAuth from '@hooks/useAuth.js'
+import {useDispatch} from 'react-redux'
+import {cleanAuth} from '@features/auth/authSlice.js'
 
 export default function useLogout(){
-	const {setAuth} = useAuth()
+	const dispatch = useDispatch()
 
 	const logout = async () => {
-		setAuth({})
+		dispatch(cleanAuth({}))
 		try{
 			await axios.delete('/logout',{withCredentials: true})
 		 }

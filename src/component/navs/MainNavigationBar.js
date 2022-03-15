@@ -7,10 +7,10 @@ import Nav from 'react-bootstrap/Nav'
 import SearchInput from '@component/input/SearchInput.js'
 import {BsFillCartFill,BsFillPersonFill,BsFillMenuAppFill} from 'react-icons/bs'
 import {Link} from 'react-router-dom'
-import useAuth from '@hooks/useAuth.js'
+import {useSelector} from 'react-redux'
 
 export default function MainNavigationBar(){
-  const {auth} = useAuth()
+  const auth = useSelector(state=>state.auth)
 
   const onSearchHandler = input =>{
       console.log('MainNavigationBar.js.js,input:',input)

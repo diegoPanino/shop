@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
-import useLogout from '@services/signOutService.js'
+import useLogout from '@hooks/useLogout.js'
 
 export default function LogoutPage(){
 	const user = {name:'fake'} 
@@ -12,14 +12,13 @@ export default function LogoutPage(){
 	const logout = useLogout()
 
 	const confirmLogoutBtn =()=>{
-
 		logout().then(res =>{
 			setMsg({msg:`See you soon, ${user.name}`,err:false})
-		//	setTimeout(()=>navigate('/'),500)
+			navigate('/')
 		})
 		.catch(err =>{
 			setMsg({msg:'Oops, seems something went wrong! Try again',err:true})
-			setTimeout(()=>navigate('/user'),750)
+			setTimeout(()=>navigate('/login',{replace:true}),750)
 		})
 	}
 	const cancelLogoutBtn = () =>{

@@ -1,5 +1,5 @@
 import {useLocation, Navigate} from 'react-router-dom'
-import useAuth from '@hooks/useAuth.js'
+import {useSelector} from 'react-redux'
 import AccountNav from '@component/navs/AccountNav.js'
 
 //account page has to check if the user is logged in or not and re route to the correct page
@@ -8,9 +8,9 @@ import AccountNav from '@component/navs/AccountNav.js'
 
 export default function RequireAuth({children}){
 	let location = useLocation()
-	const {auth} = useAuth()
+	const auth = useSelector(state=>state.auth)
 
-	console.log('RequireAuth.js auth?.a',auth?.a)
+	console.log('RequireAuth')
 
 	return (
 		auth?.a 
