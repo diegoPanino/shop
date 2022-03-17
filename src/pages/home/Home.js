@@ -4,7 +4,6 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'*/
 
 export default function Home(props){
-	console.log('Home')
 	return(
 		<div>
 			<p>Home</p>

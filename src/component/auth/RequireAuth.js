@@ -10,8 +10,6 @@ export default function RequireAuth({children}){
 	let location = useLocation()
 	const auth = useSelector(state=>state.auth)
 
-	console.log('RequireAuth')
-
 	return (
 		auth?.a 
 			? <AccountNav />

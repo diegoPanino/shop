@@ -5,7 +5,6 @@ export const authSlice = createSlice({
 	initialState:{
 		user:null,
 		a:null,
-		p:false,
 	},
 	reducers:{
 		setAuth: (state,action) =>{
@@ -17,11 +16,8 @@ export const authSlice = createSlice({
 			state.a = null
 			state.p = false
 		},
-		toggleP:(state) => {
-			state.p = !state.p
-		}
 	}
 })
 
-export const {setAuth,cleanAuth,/*toggleP*/} = authSlice.actions
+export const {setAuth,cleanAuth} = authSlice.actions
 export default authSlice.reducer

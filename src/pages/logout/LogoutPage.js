@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
@@ -11,10 +11,15 @@ export default function LogoutPage(){
 	const [msg,setMsg] = useState({msg:'',err:''})
 	const logout = useLogout()
 
+/*	useEffect(()=>{
+		if(msg.msg.length === 0) return 
+		if(msg.err) setTimeout(()=>navigate('/login',{replace:true}),750)
+		else setTimeout(()=>navigate('/'),550) //eslint-disable-next-line
+	},[msg])*/
+
 	const confirmLogoutBtn =()=>{
 		logout().then(res =>{
 			setMsg({msg:`See you soon, ${user.name}`,err:false})
-			navigate('/')
 		})
 		.catch(err =>{
 			setMsg({msg:'Oops, seems something went wrong! Try again',err:true})
@@ -23,7 +28,6 @@ export default function LogoutPage(){
 	}
 	const cancelLogoutBtn = () =>{
 		setMsg({msg:'Good choice, let\'s go shopping!',err:false})
-		setTimeout(()=>navigate('/'),500)
 	}
 	if(typeof msg.err === 'boolean') 
 		return <><p className = {!msg.err ? 'fscaling-2 text-success text-center' : 'fscaling-2 text-danger text-center' }>{msg.msg}</p></>
